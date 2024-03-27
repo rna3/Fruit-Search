@@ -84,7 +84,6 @@ const input = document.querySelector("#fruit");
 const suggestions = document.querySelector(".suggestions ul");
 
 input.addEventListener("keyup", searchHandler);
-suggestions.addEventListener("mouseover", highLight);
 suggestions.addEventListener("click", useSuggestion);
 
 function searchHandler(e) {
@@ -92,17 +91,13 @@ function searchHandler(e) {
   const inputVal = e.target.value;
   const results = search(inputVal);
   showSuggestions(results, inputVal);
-  if (inputVal === "") {
-    suggestions.innerHTML = "";
-    suggestions.classList.remove("has-suggestions");
-  }
 }
 
 function search(str) {
   let results = [];
 
   // TODO
-  const userInput = input.value.toLowerCase();
+  const userInput = str.toLowerCase();
   fruit.forEach((fruitName) => {
     if (fruitName.toLowerCase().includes(userInput)) {
       results.push(fruitName);
@@ -120,16 +115,11 @@ function showSuggestions(results, inputVal) {
     suggestions.classList.add("has-suggestions");
     li.textContent = result;
     suggestions.appendChild(li);
+    if (inputVal === "") {
+      suggestions.innerHTML = "";
+      suggestions.classList.remove("has-suggestions");
+    }
   });
-}
-
-function highLight(e) {
-  const hoveredSuggestion = e.target;
-  const allSuggestions = suggestions.querySelectorAll("li");
-  allSuggestions.forEach((suggestion) => {
-    suggestion.classList.remove("hover");
-  });
-  hoveredSuggestion.classList.add("hover");
 }
 
 function useSuggestion(e) {
